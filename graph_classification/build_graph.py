@@ -1,3 +1,6 @@
+"""
+This file is used to build ASTs for Scratch3 projects.
+"""
 from utils import load_json, write_json
 import pandas as pd
 import numpy as np
@@ -8,24 +11,23 @@ from tqdm import tqdm
 
 
 def buildGraph(filepath):
-    # project 第一层
+    # project layer 1
     sb3 = load_json(filepath)
     targets = sb3['targets']
     monitors = sb3['monitors']
     extensions = sb3['extensions']
     meta = sb3['meta']
 
-    G = nx.Graph(name="graph")  # 创建无向图
-    # G = nx.DiGraph(name="graph")　# 创建有向图
+    G = nx.Graph(name="graph")  # create an undirected graph
+    # G = nx.DiGraph(name="graph")
 
-    #     print("This project have", len(targets), "targets")
     stage_num = 0
     role_num = 0
     id = 0
     id2blockid = dict()
     blockid2id = dict()
 
-    # 为所有Stage, role, block 构建映射
+    # create mapping for all stages, roles, and blocks
     for target in targets:
         isStage = target['isStage']
         if isStage is True:
@@ -36,7 +38,7 @@ def buildGraph(filepath):
                 blockid2id[name] = id
                 id += 1
 
-            # Stage也有block
+            # stage's block
             blocks = target['blocks']
             for block_id in blocks:
                 block = blocks[block_id]
@@ -65,13 +67,13 @@ def buildGraph(filepath):
     #     print("Role: ", role_num)
     #     print("Node: ", len(id2blockid))
 
-    # 构建Graph
+    # create a graph
     for target in targets:
         isStage = target['isStage']
-        if isStage == True:
+        if isStage is True:
             name = target['name']
             stage_id = blockid2id[name]
-            G.add_node(stage_id, id=stage_id, feature=name, name=name, opcode="stage")  # 舞臺加入Graph
+            G.add_node(stage_id, id=stage_id, feature=name, name=name, opcode="stage")
 
             blocks = target['blocks']
             for block_id in blocks:
@@ -96,7 +98,7 @@ def buildGraph(filepath):
         else:
             name = target['name']
             role_id = blockid2id[name]
-            G.add_node(role_id, id=role_id, name=name, feature=name, opcode="role", parent=stage_id)  # 將角色加入Graph
+            G.add_node(role_id, id=role_id, name=name, feature=name, opcode="role", parent=stage_id)  # add role to Graph
             G.add_edge(stage_id, role_id)
 
             blocks = target['blocks']
@@ -124,16 +126,8 @@ def buildGraph(filepath):
 
 
 if __name__ == "__main__":
-    """
-    为某json文件建图
-    """
-    # dir = "D:/Workspace/Project/Data/p4/"
-    # dirpath = dir + "source_code/*.json"
-    # graphpath = dir + "graph/"
-
-    # dir = "/home/wh/Project/Data/p9/"
-    # dirpath = dir + "source_code/*.json"
-    # graphpath = dir + "graph/"
+    # dirpath = "../data/source_code/*.json"
+    # graphpath = "../data/graph/"
     # filelist = glob.glob(dirpath)
     #
     # for i in tqdm(range(len(filelist))):
@@ -142,6 +136,8 @@ if __name__ == "__main__":
     #     filename = filepath.split('/')[-1].split('.')[0]
     #     nx.write_gexf(G, graphpath + filename + ".gexf")
 
-
-    G = buildGraph("C:/Users/hangzhouwh/Desktop/base14.json")
-    nx.write_gexf(G, "C:/Users/hangzhouwh/Desktop/base14.gexf")
+    """
+    Create a picture for a json source code file
+    """
+    G = buildGraph("../data/source_code/1.json")
+    nx.write_gexf(G, "../data/graph/1.gexf")

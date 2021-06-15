@@ -1,3 +1,6 @@
+"""
+This file is used to learn graph vectors using the Graph2Vec model.
+"""
 import pandas as pd
 import numpy as np
 import networkx as nx

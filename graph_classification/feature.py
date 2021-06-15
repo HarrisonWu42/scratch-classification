@@ -1,3 +1,6 @@
+"""
+This file is used to extract features.
+"""
 import pandas as pd
 import numpy as np
 import glob

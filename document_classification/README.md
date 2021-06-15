@@ -4,22 +4,24 @@ Implementation for Convolutional Neural Networks for Sentence Classification of 
 
 ## Quick Start
 
-To run the model on the LitCovid dataset, just run the following from the working directory:
+To run the model on the Scratch dataset, just run the following from the working directory:
 
 ```
 python -m models.kim_cnn --mode static --dataset Scratch --batch-size 32 --lr 0.01 --epochs 30 --dropout 0.5 --seed 3435
 ```
 
+Or just run the file models.kim_cnn.__main__.py
+
 The best model weights will be saved in
 
 ```
-models/kim_cnn/saves/LitCovid/best_model.pt
+models/kim_cnn/saves/Scratch/best_model.pt
 ```
 
 To test the model, you can use the following command.
 
 ```
-python -m models.kim_cnn --dataset LitCovid --mode static --batch-size 32 --trained-model models/kim_cnn/saves/Scratch/best_model.pt --seed 3435
+python -m models.kim_cnn --dataset Scratch --mode static --batch-size 32 --trained-model models/kim_cnn/saves/Scratch/best_model.pt --seed 3435
 ```
 
 ## Model Types
