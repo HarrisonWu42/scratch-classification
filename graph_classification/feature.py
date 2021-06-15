@@ -33,7 +33,7 @@ def key_variable(root):
 	for i in tqdm(range(len(filelist))):
 		feat = {}
 		filepath = filelist[i]
-		id = filepath.split('\\')[-1].split('.')[0]  # 特征1：id(filename)
+		id = filepath.split('\\')[-1].split('.')[0]
 		feat['id'] = int(id)
 
 		scode = load_json(filepath)
@@ -86,10 +86,10 @@ def mccabe(root):
 	for i in tqdm(range(len(filelist))):
 		feat = {}
 		filepath = filelist[i]
-		id = filepath.split('\\')[-1].split('.')[0]  # 特征1：id(filename)
+		id = filepath.split('\\')[-1].split('.')[0]
 		feat['id'] = int(id)
 
-		score = 1  # McCabe度量法
+		score = 1  # McCabe
 		scode = load_json(filepath)
 		targets = scode['targets']
 
@@ -140,13 +140,13 @@ def halstead(root):
 	for i in tqdm(range(len(filelist))):
 		feat = {}
 		filepath = filelist[i]
-		id = filepath.split('\\')[-1].split('.')[0]  # 特征1：id(filename)
+		id = filepath.split('\\')[-1].split('.')[0]
 		feat['id'] = int(id)
 
-		N1 = 0  # 唯一操作数总数
-		N2 = 0  # 唯一操作符总数
-		n1 = 0  # 操作数总数
-		n2 = 0  # 操作符总数
+		N1 = 0  # The number of unique operations
+		N2 = 0  # The number of unique operators
+		n1 = 0  # The number of operations
+		n2 = 0  # The number of operators
 
 		scode = load_json(filepath)
 		targets = scode['targets']
@@ -171,7 +171,7 @@ def halstead(root):
 						opnum_set.add(input)
 				except:
 					pass
-		# print(n1, "", n2)
+
 		N1 = len(opnum_set)
 		N2 = len(opcode_set)
 		N = N1 + N2
@@ -188,7 +188,7 @@ def halstead(root):
 			T = 0
 
 		feat['op_amount'] = O
-		feat['time_consuming'] = T
+		feat['time_consuming'] = T_correct
 
 		feature.append(feat)
 
@@ -202,10 +202,8 @@ def halstead(root):
 
 
 if __name__ == '__main__':
-	# ubantu
-	# root = "/home/wh/Project/Data/p4/"
-	# win
-	root = "D:/Workspace/Project/Data/p4/"
+	root = "../data/"
+
 	# embedding_teacher(root)
 	# key_variable(root)
 	# mccabe(root)
